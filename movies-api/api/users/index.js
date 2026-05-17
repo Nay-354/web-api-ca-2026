@@ -12,8 +12,13 @@ router.get('/', async (req, res) => {
 });
 
 // register(Create) User
-// register(Create)/Authenticate User
-//.... code as before
+router.post('/', async (req, res) => {
+    await User(req.body).save();
+    res.status(201).json({
+        code: 201,
+        msg: 'Successful created new user.',
+    });
+});
 
 // register(Create)/Authenticate User
 router.post('/', asyncHandler(async (req, res) => {
