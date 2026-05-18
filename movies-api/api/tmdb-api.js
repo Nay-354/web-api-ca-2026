@@ -52,9 +52,7 @@ export const getPopularMovies = async () => {
 
 export const getGenres = async () => {
     const response = await fetch(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        process.env.TMDB_KEY +
-        "&language=en-US"
+              "https://api.themoviedb.org/3/genre/movie/list?api_key=" + process.env.TMDB_KEY +"&language=en-US"
     );
 
     if (!response.ok) {
@@ -64,9 +62,101 @@ export const getGenres = async () => {
     return await response.json();
 };
 
-export const getMovieImages = async () => {
+export const getMovieImages = async ({queryKey}) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
     const response = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getMovieReviews = async ({ queryKey }) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getTopRatedMovies = async () => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.TMDB_KEY}`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getNowPlayingMovies = async () => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_KEY}`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getActor = async (id) => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_KEY}&language=en-US`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getActorImages = async ({queryKey}) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    const response = await fetch(
+        `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getActors = async () => {
+    const response = await fetch(
+        `https://api.themoviedb.org/3/discover/person?api_key=${process.env.TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    );
+
+    if (!response.ok) {
+        throw new Error((await response.json()).message);
+    }
+
+    return await response.json();
+};
+
+export const getMovieRecommendations = async ({queryKey}) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
     );
 
     if (!response.ok) {
