@@ -19,7 +19,7 @@ export const getMovie = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -240,6 +240,36 @@ export const getMovie = (args) => {
     .catch((error) => {
       throw error
    });
+  };
+
+  export const login = async (username, password) => {
+      const response = await fetch('http://localhost:8080/api/users', {
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({ username: username, password: password })
+      });
+      if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.msg || 'Authentication failed');
+      }
+      return response.json();
+  };
+  
+  export const signup = async (username, password) => {
+      const response = await fetch('http://localhost:8080/api/users?action=register', {
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({ username: username, password: password })
+      });
+      if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.msg || 'Registration failed');
+      }
+      return response.json();
   };
 
 //   export const getUpcomingMovie = (args) => {

@@ -11,15 +11,6 @@ router.get('/', async (req, res) => {
     res.status(200).json(users);
 });
 
-// register(Create) User
-router.post('/', async (req, res) => {
-    await User(req.body).save();
-    res.status(201).json({
-        code: 201,
-        msg: 'Successful created new user.',
-    });
-});
-
 // register(Create)/Authenticate User
 router.post('/', asyncHandler(async (req, res) => {
     try {

@@ -12,9 +12,7 @@ export const getMovies = async () => {
     return await response.json();
 };
 
-export const getMovie = async (args) => {
-     const [, idPart] = args.queryKey;
-    const { id } = idPart;
+export const getMovie = async (id) => {
     const response = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
     );
@@ -62,9 +60,7 @@ export const getGenres = async () => {
     return await response.json();
 };
 
-export const getMovieImages = async ({queryKey}) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+export const getMovieImages = async (id) => {
     const response = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}`
     );
@@ -76,9 +72,7 @@ export const getMovieImages = async ({queryKey}) => {
     return await response.json();
 };
 
-export const getMovieReviews = async ({ queryKey }) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+export const getMovieReviews = async (id) => {
     const response = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
     );
@@ -126,9 +120,7 @@ export const getActor = async (id) => {
     return await response.json();
 };
 
-export const getActorImages = async ({queryKey}) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+export const getActorImages = async (id) => {
     const response = await fetch(
         `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
     );
@@ -152,11 +144,9 @@ export const getActors = async () => {
     return await response.json();
 };
 
-export const getMovieRecommendations = async ({queryKey}) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
+export const getMovieRecommendations = async (id) => {
     const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
+        `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}`
     );
 
     if (!response.ok) {
@@ -164,4 +154,26 @@ export const getMovieRecommendations = async ({queryKey}) => {
     }
 
     return await response.json();
+};
+
+export const login = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
+
+export const signup = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users?action=register', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
 };
