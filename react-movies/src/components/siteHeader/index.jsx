@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { AuthContext } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -22,23 +23,46 @@ const SiteHeader = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   
   const navigate = useNavigate();
+  const { isAuthenticated, userName, signout } = useContext(AuthContext);
 
-  const menuOptions = [
-    { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
-    { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Playlist", path: "/movies/playlists" },
-    { label: "Popular", path: "/movies/popular" },
-    { label: "Top Rated", path: "/movies/topRated" },
-    { label: "Now Playing", path: "/movies/nowPlaying" },
-    { label: "People", path: "/movies/people" },
-    { label: "Log In", path: "/login" },
-    { label: "Sign Up", path: "/signup" },
-  ];
-
-  const handleMenuSelect = (pageURL) => {
+  const userLogout = () => {
     setAnchorEl(null);
-    navigate(pageURL);
+    signout();
+    navigate("/");
+  };
+
+  const menuOptions = isAuthenticated
+    ? [
+        { label: "Home", path: "/" },
+        { label: "Favorites", path: "/movies/favorites" },
+        { label: "Upcoming", path: "/movies/upcoming" },
+        { label: "Playlist", path: "/movies/playlists" },
+        { label: "Popular", path: "/movies/popular" },
+        { label: "Top Rated", path: "/movies/topRated" },
+        { label: "Now Playing", path: "/movies/nowPlaying" },
+        { label: "People", path: "/movies/people" },
+        { label: "Log Out", action: userLogout },
+      ]
+    : [
+        { label: "Home", path: "/" },
+        { label: "Favorites", path: "/movies/favorites" },
+        { label: "Upcoming", path: "/movies/upcoming" },
+        { label: "Playlist", path: "/movies/playlists" },
+        { label: "Popular", path: "/movies/popular" },
+        { label: "Top Rated", path: "/movies/topRated" },
+        { label: "Now Playing", path: "/movies/nowPlaying" },
+        { label: "People", path: "/movies/people" },
+        { label: "Log In", path: "/login" },
+        { label: "Sign Up", path: "/signup" },
+      ];
+
+  const handleMenuSelect = (option) => {
+    setAnchorEl(null);
+    if (option.action) {
+      option.action();
+    } else {
+      navigate(option.path);
+    }
   };
 
   const handleMenu = (event) => {
@@ -55,6 +79,11 @@ const SiteHeader = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             All you ever wanted to know about Movies!
           </Typography>
+          {isAuthenticated && (
+            <Typography variant="h6">
+              Welcome, {userName}!
+            </Typography>
+          )}
             {isMobile ? (
               <>
                 <IconButton
@@ -84,7 +113,7 @@ const SiteHeader = () => {
                   {menuOptions.map((opt) => (
                     <MenuItem
                       key={opt.label}
-                      onClick={() => handleMenuSelect(opt.path)}
+                      onClick={() => handleMenuSelect(opt)}
                     >
                       {opt.label}
                     </MenuItem>
@@ -97,7 +126,7 @@ const SiteHeader = () => {
                   <Button
                     key={opt.label}
                     color="inherit"
-                    onClick={() => handleMenuSelect(opt.path)}
+                    onClick={() => handleMenuSelect(opt)}
                   >
                     {opt.label}
                   </Button>

@@ -28,19 +28,18 @@ export default function ActorCard({ actor, action }) {
               <FavoriteIcon />
             </Avatar>
           ): null
-       
         }
         title={
           <Typography variant="h5" component="p">
-            {actor.title}{" "}
+            {actor.name}{" "}
           </Typography>
         }
       />
       <CardMedia
         sx={{ height: 500 }}
         image={
-          actor.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${actor.poster_path}`
+          actor.profile_path
+            ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
             : img
         }
       />

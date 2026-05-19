@@ -19,7 +19,7 @@ export const getMovie = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
+    `http://localhost:8080/api/movies/movie?id=${id}`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -35,9 +35,7 @@ export const getMovie = (args) => {
 
   export const getGenres = () => {
     return fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        import.meta.env.VITE_TMDB_KEY +
-        "&language=en-US"
+      `http://localhost:8080/api/movies/genres`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
@@ -73,7 +71,7 @@ export const getMovie = (args) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/movies/images?id=${id}`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
@@ -91,7 +89,7 @@ export const getMovie = (args) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/movies/reviews?id=${id}`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
@@ -108,7 +106,7 @@ export const getMovie = (args) => {
   export const getUpcomingMovies = () => {
   //console.log(args)
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `http://localhost:8080/api/movies/upcoming`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -125,7 +123,7 @@ export const getMovie = (args) => {
   export const getPopularMovies = () => {
   //console.log(args)
   return fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `http://localhost:8080/api/movies/popular`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -142,7 +140,7 @@ export const getMovie = (args) => {
  export const getTopRatedMovies = () => {
   //console.log(args)
   return fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `http://localhost:8080/api/movies/top-rated`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -159,7 +157,7 @@ export const getMovie = (args) => {
  export const getNowPlayingMovies = () => {
   //console.log(args)
   return fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `http://localhost:8080/api/movies/now-playing`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -176,7 +174,7 @@ export const getMovie = (args) => {
  export const getActor = (id) => {
   //console.log(args)
   return fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+    `http://localhost:8080/api/movies/actor?id=${id}`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -194,7 +192,7 @@ export const getMovie = (args) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/person/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `http://localhost:8080/api/movies/actor-images?id=${id}`
     ).then( (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
@@ -210,7 +208,7 @@ export const getMovie = (args) => {
 
   export const getActors = () => {
   return fetch(
-    `https://api.themoviedb.org/3/discover/person?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `http://localhost:8080/api/movies/discover/person`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -250,10 +248,6 @@ export const getMovie = (args) => {
           method: 'post',
           body: JSON.stringify({ username: username, password: password })
       });
-      if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.msg || 'Authentication failed');
-      }
       return response.json();
   };
   
@@ -265,10 +259,6 @@ export const getMovie = (args) => {
           method: 'post',
           body: JSON.stringify({ username: username, password: password })
       });
-      if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.msg || 'Registration failed');
-      }
       return response.json();
   };
 

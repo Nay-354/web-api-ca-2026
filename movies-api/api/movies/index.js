@@ -9,9 +9,9 @@ import { getMovieImages } from '../tmdb-api';
 import { getMovieReviews } from '../tmdb-api'; 
 import { getTopRatedMovies } from '../tmdb-api'; 
 import { getNowPlayingMovies } from '../tmdb-api'; 
-import { getActor } from '../tmdb-api'; 
-import { getActorImages } from '../tmdb-api'; 
 import { getActors } from '../tmdb-api'; 
+import { getActorImages } from '../tmdb-api'; 
+import { getActor } from '../tmdb-api'; 
 import { getMovieRecommendations } from '../tmdb-api'; 
 
 const router = express.Router();
@@ -75,6 +75,11 @@ router.get('/actor-images', asyncHandler(async (req, res) => {
 router.get('/discover-actors', asyncHandler(async (req, res) => {
     const actors = await getActors();
     res.status(200).json(actors);
+}));
+
+router.get('/recommendations', asyncHandler(async (req, res) => {
+    const recommendations = await getMovieRecommendations(req.query.id);
+    res.status(200).json(recommendations);
 }));
 
 export default router;
